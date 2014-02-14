@@ -1,0 +1,21 @@
+common:
+        loglevel: debug
+
+        boto_bucket: cd-docker-registry
+
+        # Amazon S3 Storage Configuration
+        s3_access_key: XXX
+        s3_secret_key: XXX
+        s3_bucket: docker-registry
+        s3_encrypt: true
+        s3_secure: true
+
+        secret_key: 7f37fd7afcb64c79b8d615e80ea0e584ecc746560b22639d5164a1d6f426f31c
+
+prod:
+        storage: s3
+        storage_path: /prod
+
+demo:
+        storage: local
+        storage_path: /docker-registry-storage

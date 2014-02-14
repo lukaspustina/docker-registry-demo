@@ -1,0 +1,5 @@
+.vagrant
+jq
+registry/docker-registry
+registry/docker-registry-storage/
+
