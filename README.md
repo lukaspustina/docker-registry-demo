@@ -4,7 +4,7 @@ This demo gives an introduction on how to set up and use a private [Docker][dock
 
 The demo works in two steps. In step one, a registry and two Python images for Python 2.7 and 3.3 are build and pushed to a registry running as a Docker container. In a step two, these Python images are pulled and run. The demo is controlled by a `Makefile`. Please have a look at this `Makefile` to see the different Docker commands used. 
 
-The Docker image for the registry is production-ready and we use it at [CenterDevice][centerdevice]. You can use it for your own private Docker registry. Please have a look at the config template `registry/config.yml.template` and the `Makefile` target `start-registry` to customize the registry to your needs. The storage backend is set for flat files. We use S3. If you want to change the storage backend, add another flavor as described [here][docker-registry] and set the environment variable `SETTINGS_FLAVOR` in the `CMD` line in `registry/Dockerfile` accordingly.
+The Docker image for the registry is production-ready and we use it at [CenterDevice][centerdevice]. You can use it for your own private Docker registry. Please have a look at the config template `registry/config.yml.template` and the `Makefile` target `start-registry` to customize the registry to your needs. The storage backend is set for flat files. We use S3. If you want to change the storage backend to Amazon S3, add your S3 credentials and set the environment variable `SETTINGS_FLAVOR` in the `CMD` line in `registry/Dockerfile` to `prod`.
 
 Have fun with lightweight virtual machines made simple with Docker and feel free to contact me for any questions or comments.
 
