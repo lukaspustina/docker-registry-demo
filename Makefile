@@ -1,7 +1,7 @@
 USERNAME=docker-registry-demo
 REGISTRY=localhost:5000
 
-.PHONY: base registry run-registry push-base python-2 python-3 pull run-python-2 run-python-3
+.PHONY: base registry run-registry python-2 python-3 pull run-python-2 run-python-3
 
 all:
 	@echo "make build -- build docker images"
@@ -32,7 +32,6 @@ registry/docker-registry:
 
 base:
 	docker build -rm -t $(USERNAME)/$@ $@
-	docker tag $(USERNAME)/$@ $(REGISTRY)/$@
 
 start-registry: registry/docker-registry-storage
 	docker run --name registry -d -p 5000:5000 -v `pwd`/registry/docker-registry-storage:/docker-registry-storage $(USERNAME)/registry
