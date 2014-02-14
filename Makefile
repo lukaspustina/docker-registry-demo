@@ -14,12 +14,8 @@ all:
 	@echo "make stop-registry -- stops registry"
 	@echo "make clean -- removes containers, images, and downloads"
 
-build: jq base registry start-registry python-2 python-3 build-clean stop-registry
+build: base registry start-registry python-2 python-3 build-clean stop-registry
 	docker images
-
-jq:
-	wget http://stedolan.github.io/jq/download/linux64/jq
-	chmod +x jq
 
 registry: registry/config.yml registry/docker-registry
 	docker build -rm -t $(USERNAME)/$@ $@
@@ -81,7 +77,6 @@ clean-images:
 
 clean-downloads:
 	-@rm -rf registry/docker-registry
-	-@rm jq
 
 clean-registry-storage:
 	rm -rf registry/docker-registry-storage
