@@ -43,7 +43,7 @@ To clean up, run
 
 [docker]: http://docker.io
 [centerdevice]: http://www.centerdevice.com
-[cc-blog]: blog
+[cc-blog]: https://blog.codecentric.de/en/2014/02/docker-registry-run-private-docker-image-repository/
 [lxc]: http://linuxcontainers.org/
 [vagrant]: http://www.vagrantup.com
 [docker-install-doc]: http://docs.docker.io/en/latest/installation/
