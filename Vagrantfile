@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
     vbox.memory = 1024
   end
 
-  config.vm.provision "docker", version: "0.8"
+  config.vm.provision "docker", version: "0.8.1"
   config.vm.provision :shell, :inline => "mkdir -p /var/lib/cloud/instance; touch /var/lib/cloud/instance/locale-check.skip"
   config.vm.provision :shell, :inline => "apt-get update && apt-get install -y git"
 end
