@@ -1,4 +1,4 @@
-USERNAME=docker-registry-demo
+USERNAME=dockerregistrydemo
 REGISTRY=localhost:5000
 
 .PHONY: base registry run-registry python-2 python-3 pull run-python-2 run-python-3
@@ -18,7 +18,7 @@ build: base registry start-registry python-2 python-3 build-clean stop-registry
 	docker images
 
 registry: registry/config.yml registry/docker-registry
-	docker build -rm -t $(USERNAME)/$@ $@
+	docker build --rm -t $(USERNAME)/$@ $@
 
 registry/config.yml:
 	cat $@.template | sed "s/@@SEC_KEY@@/`openssl rand -hex 32`/" > $@
@@ -27,7 +27,7 @@ registry/docker-registry:
 	git clone https://github.com/dotcloud/docker-registry.git $@
 
 base:
-	docker build -rm -t $(USERNAME)/$@ $@
+	docker build --rm -t $(USERNAME)/$@ $@
 
 start-registry: registry/docker-registry-storage
 	docker run --name registry -d -p 5000:5000 -v `pwd`/registry/docker-registry-storage:/docker-registry-storage $(USERNAME)/registry
@@ -41,13 +41,13 @@ stop-registry:
 	docker rm registry
 
 python-2:
-	docker build -rm -t $(USERNAME)/python $@
+	docker build --rm -t $(USERNAME)/python $@
 	docker tag $(USERNAME)/python $(USERNAME)/python:$@
 	docker tag $(USERNAME)/python $(REGISTRY)/python:$@
 	docker push $(REGISTRY)/python
 
 python-3:
-	docker build -rm -t $(USERNAME)/python $@
+	docker build --rm -t $(USERNAME)/python $@
 	docker tag $(USERNAME)/python $(USERNAME)/python:$@
 	docker tag $(USERNAME)/python $(REGISTRY)/python:$@
 	docker push $(REGISTRY)/python
