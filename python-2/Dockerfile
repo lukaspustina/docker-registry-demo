@@ -1,8 +1,8 @@
 # Dockerfile for python 2
 # Version 1.0
-FROM docker-registry-demo/base
+FROM lukaspustina/base
 
-MAINTAINER Lukas Pustina <lukas.pustina@centerdevice.com>
+MAINTAINER Lukas Pustina <lukas.pustina@codecentric.de>
 
 RUN apt-get install -y python2.7
 

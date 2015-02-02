@@ -1,7 +1,8 @@
-USERNAME=docker-registry-demo
+USERNAME=lukaspustina
 REGISTRY=localhost:5000
+REGISTRY_VERSION=0.9.1
 
-.PHONY: base registry run-registry python-2 python-3 pull run-python-2 run-python-3
+.PHONY: base registry/docker-registry registry run-registry python-2 python-3 pull run-python-2 run-python-3
 
 all:
 	@echo "make build -- build docker images"
@@ -18,16 +19,20 @@ build: base registry start-registry python-2 python-3 build-clean stop-registry
 	docker images
 
 registry: registry/config.yml registry/docker-registry
-	docker build -rm -t $(USERNAME)/$@ $@
+	docker build --rm -t $(USERNAME)/$@ $@
 
 registry/config.yml:
 	cat $@.template | sed "s/@@SEC_KEY@@/`openssl rand -hex 32`/" > $@
 
 registry/docker-registry:
-	git clone https://github.com/dotcloud/docker-registry.git $@
+	-git clone https://github.com/dotcloud/docker-registry.git $@
+	cd $@; git checkout master
+	cd $@; git pull --rebase
+	cd $@; git checkout $(REGISTRY_VERSION)
+	cd $@; docker build --rm -t docker/docker-registry .
 
 base:
-	docker build -rm -t $(USERNAME)/$@ $@
+	docker build --rm -t $(USERNAME)/$@ $@
 
 start-registry: registry/docker-registry-storage
 	docker run --name registry -d -p 5000:5000 -v `pwd`/registry/docker-registry-storage:/docker-registry-storage $(USERNAME)/registry
@@ -41,15 +46,15 @@ stop-registry:
 	docker rm registry
 
 python-2:
-	docker build -rm -t $(USERNAME)/python $@
-	docker tag $(USERNAME)/python $(USERNAME)/python:$@
-	docker tag $(USERNAME)/python $(REGISTRY)/python:$@
+	docker build --rm -t $(USERNAME)/python $@
+	docker tag -f $(USERNAME)/python $(USERNAME)/python:$@
+	docker tag -f $(USERNAME)/python $(REGISTRY)/python:$@
 	docker push $(REGISTRY)/python
 
 python-3:
-	docker build -rm -t $(USERNAME)/python $@
-	docker tag $(USERNAME)/python $(USERNAME)/python:$@
-	docker tag $(USERNAME)/python $(REGISTRY)/python:$@
+	docker build --rm -t $(USERNAME)/python $@
+	docker tag -f $(USERNAME)/python $(USERNAME)/python:$@
+	docker tag -f $(USERNAME)/python $(REGISTRY)/python:$@
 	docker push $(REGISTRY)/python
 
 build-clean:
@@ -60,7 +65,8 @@ build-clean:
 demo: start-registry pull run-python-2 run-python-3 stop-registry
 
 pull:
-	docker pull $(REGISTRY)/python
+	docker pull $(REGISTRY)/python:python-2
+	docker pull $(REGISTRY)/python:python-3
 	docker images
 
 run-python-2:

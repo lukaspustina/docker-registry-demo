@@ -1,8 +1,8 @@
 # Dockerfile for python 
 # Version 1.0
-FROM stackbrew/ubuntu:saucy
+FROM ubuntu:14.04
 
-MAINTAINER Lukas Pustina <lukas.pustina@centerdevice.com>
+MAINTAINER Lukas Pustina <lukas.pustina@codecentric.de>
 
 ENV DEBIAN_FRONTEND noninteractive
 

@@ -1,21 +1,20 @@
 # Dockerfile for Docker Registry
 # derived from https://github.com/dotcloud/docker-registry/blob/master/Dockerfile
 # Version 1.0
-FROM docker-registry-demo/base
+FROM docker/docker-registry
 
-MAINTAINER Lukas Pustina <lukas.pustina@centerdevice.com>
+MAINTAINER Lukas Pustina <lukas.pustina@codecentric.de>
 
-ADD docker-registry /docker-registry
-ADD config.yml /etc/docker/
-
-RUN apt-get install -y git-core build-essential python-dev libevent1-dev python-openssl liblzma-dev wget; rm /var/lib/apt/lists/*_*
-RUN cd /tmp; wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
-RUN cd /tmp; python ez_setup.py; easy_install pip; rm ez_setup.py
-
-RUN cd /docker-registry && pip install -r requirements.txt
+ADD config.yml /etc/docker-registry/
 
 VOLUME /docker-registry-storage
-EXPOSE 5000
 
-CMD cd /docker-registry; SETTINGS_FLAVOR=demo DOCKER_REGISTRY_CONFIG=/etc/docker/config.yml gunicorn -k gevent -b 0.0.0.0:5000 --max-requests 100 --graceful-timeout 3600 -t 3600 -w 8 wsgi:application
+ENV DOCKER_REGISTRY_CONFIG /etc/docker-registry/config.yml
+ENV SETTINGS_FLAVOR demo
+
+ENV GUNICORN_WORKERS 8
+ENV GUNICORN_GRACEFUL_TIMEOUT 3600
+ENV GUNICORN_SILENT_TIMEOUT 3600
+
+CMD ["docker-registry"]
 

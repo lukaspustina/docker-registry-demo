@@ -1,21 +1,17 @@
-common:
-        loglevel: debug
+common: &common
+  loglevel: debug
+  standalone: true
+  search_backend: "_env:SEARCH_BACKEND:"
+  sqlalchemy_index_database: "_env:SQLALCHEMY_INDEX_DATABASE:sqlite:////tmp/docker-registry.db"
 
-        boto_bucket: cd-docker-registry
+  secret_key: @@SEC_KEY@@
 
-        # Amazon S3 Storage Configuration
-        s3_access_key: XXX
-        s3_secret_key: XXX
-        s3_bucket: docker-registry
-        s3_encrypt: true
-        s3_secure: true
+prod: &prod
+  <<: *common
+  storage: s3
+  storage_path: /prod
 
-        secret_key: @@SEC_KEY@@
-
-prod:
-        storage: s3
-        storage_path: /prod
-
-demo:
-        storage: local
-        storage_path: /docker-registry-storage
+demo: &demo
+  <<: *common
+  storage: local
+  storage_path: /docker-registry-storage
