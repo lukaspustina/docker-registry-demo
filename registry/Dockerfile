@@ -1,7 +1,7 @@
 # Dockerfile for Docker Registry
 # derived from https://github.com/dotcloud/docker-registry/blob/master/Dockerfile
 # Version 1.0
-FROM docker/docker-registry
+FROM registry
 
 MAINTAINER Lukas Pustina <lukas.pustina@codecentric.de>
 
